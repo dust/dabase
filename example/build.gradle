@@ -3,11 +3,10 @@ buildscript {
         jcenter()
     }
     dependencies {
-
         classpath 'com.android.tools.build:gradle:0.13.0'
     }
 }
-apply plugin: 'com.android.library'
+apply plugin: 'com.android.application'
 
 repositories {
         jcenter()
@@ -18,7 +17,7 @@ android {
     buildToolsVersion "21.1.2"
 
     defaultConfig {
-        applicationId "com.kmfrog.dabase"
+        applicationId "com.kmfrog.dabase.example"
         minSdkVersion 16
         targetSdkVersion 20
         versionCode 1
@@ -33,8 +32,6 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:21.0.3'
-    compile 'com.squareup.okhttp3:okhttp:3.3.1'
-    compile 'com.google.code.gson:gson:2.6.2'
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile project(':dabase')
 }
