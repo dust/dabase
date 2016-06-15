@@ -4,7 +4,7 @@ buildscript {
     }
     dependencies {
 
-        classpath 'com.android.tools.build:gradle:0.13.0'
+        classpath 'com.android.tools.build:gradle:1.0.0'
     }
 }
 apply plugin: 'com.android.library'
@@ -14,11 +14,11 @@ repositories {
 }
 
 android {
-    compileSdkVersion 20
-    buildToolsVersion "21.1.2"
+    compileSdkVersion 22
+    buildToolsVersion "23.0.3"
 
     defaultConfig {
-        applicationId "com.kmfrog.dabase"
+
         minSdkVersion 16
         targetSdkVersion 20
         versionCode 1
@@ -26,7 +26,7 @@ android {
     }
     buildTypes {
         release {
-            runProguard false
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }

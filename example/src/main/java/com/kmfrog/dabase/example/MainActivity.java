@@ -19,6 +19,7 @@ public class MainActivity extends Activity {
 
     BaseListAdapter<Versus> adapter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,11 +33,13 @@ public class MainActivity extends Activity {
         adapter = new BaseListAdapter<Versus>(App.get().getRequestQueue(), Uri.parse("http://192.168.0.91:8080/v1/events/choice"), true) {
             @Override
             public View getView(int i, View view, ViewGroup viewGroup) {
-                LayoutInflater inflater = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                RelativeLayout item = (RelativeLayout)inflater.inflate(R.layout.item, null);
-                TextView tv = (TextView)item.findViewById(R.id.tv1);
+                if(view==null) {
+                    LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
+                    view = inflater.inflate(R.layout.item, null);
+                }
+                TextView tv = (TextView) view.findViewById(R.id.tv1);
                 tv.setText(getItem(i).getCreatedBy());
-                return item;
+                return view;
             }
         };
 
