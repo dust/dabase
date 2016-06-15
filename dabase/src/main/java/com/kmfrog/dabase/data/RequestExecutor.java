@@ -47,7 +47,7 @@ public abstract class RequestExecutor<D, R> {
     }
 
     protected void putCacheEntry(byte[] bytes, String cacheKey, String etag, long softTtl, long serverDateMillis, long ttl,
-        String charset) {
+        String charset, String dataMeta) {
 
         Cache.Entry entry=new Cache.Entry();
         entry.data=bytes;
@@ -56,6 +56,7 @@ public abstract class RequestExecutor<D, R> {
         entry.bornMillisTimes=serverDateMillis;
         entry.ttl=ttl;
         entry.charset=charset;
+        entry.dataMeta = dataMeta;
         mCache.put(cacheKey, entry);
     }
 }

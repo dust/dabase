@@ -34,6 +34,8 @@ public abstract class Cache {
 
         public String etag;
 
+        public String dataMeta;
+
         public long softTtl;
 
         public long ttl;

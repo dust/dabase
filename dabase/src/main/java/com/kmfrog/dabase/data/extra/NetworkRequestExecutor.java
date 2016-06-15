@@ -163,8 +163,9 @@ public abstract class NetworkRequestExecutor<D> extends
 		}
 
 		String charset = parseCharset(headers);
+		String dataMeta = headers.get(JsonRawParserFactory.DEF_DATA_META);
 		putCacheEntry(bytes, cacheKey, etag, softTtl, serverDateMillis,
-				softTtl * 2, charset);
+				softTtl * 2, charset, dataMeta);
 	}
 
 	static String parseCharset(Map<String, String> headers) {
@@ -186,6 +187,10 @@ public abstract class NetworkRequestExecutor<D> extends
 			}
 		}
 		return defCharset;
+	}
+
+	static String parseDataMeta(Map<String, String> headers){
+		return headers.get(JsonRawParserFactory.DEF_DATA_META);
 	}
 
 	static boolean isChunked(Map<String, String> headers) {

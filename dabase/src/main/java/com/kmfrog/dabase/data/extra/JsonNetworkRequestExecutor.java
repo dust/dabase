@@ -25,9 +25,11 @@ public class JsonNetworkRequestExecutor extends NetworkRequestExecutor<Object> {
         Map<String,Object> extas=new HashMap<String,Object>();
         if(entry!=null){
             extas.put("charset", entry.charset);
+            extas.put(JsonRawParserFactory.DEF_DATA_META, entry.dataMeta);
         }
         else{
             extas.put("charset", parseCharset(headers));
+            extas.put(JsonRawParserFactory.DEF_DATA_META, parseDataMeta(headers));
         }
         return extas;
         

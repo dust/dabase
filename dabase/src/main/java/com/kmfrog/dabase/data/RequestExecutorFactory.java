@@ -1,45 +1,18 @@
 package com.kmfrog.dabase.data;
 
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.http.protocol.HttpContext;
-
 import android.content.Context;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.util.Log;
-
 import com.kmfrog.dabase.Contract;
-import com.kmfrog.dabase.data.extra.AppIconRequestExecutor;
-import com.kmfrog.dabase.data.extra.BasedUriNetworkRequestExecutor;
-import com.kmfrog.dabase.data.extra.BasedUriRawParserFactory;
-import com.kmfrog.dabase.data.extra.BasedUriRequest;
-import com.kmfrog.dabase.data.extra.BitmapCacheRequestExecutor;
-import com.kmfrog.dabase.data.extra.BitmapNetworkRequestExecutor;
-import com.kmfrog.dabase.data.extra.BitmapRawParser;
-import com.kmfrog.dabase.data.extra.CacheRequestExecutor;
-import com.kmfrog.dabase.data.extra.CommandOutputRawParserFactory;
-import com.kmfrog.dabase.data.extra.CommandRequest;
-import com.kmfrog.dabase.data.extra.CommandRequestExecutor;
-import com.kmfrog.dabase.data.extra.DbCursorRawParserFactory;
-import com.kmfrog.dabase.data.extra.DrawableBitmapParser;
-import com.kmfrog.dabase.data.extra.ImageRequest;
-import com.kmfrog.dabase.data.extra.JsonCacheRequestExecutor;
-import com.kmfrog.dabase.data.extra.JsonNetworkRequestExecutor;
-import com.kmfrog.dabase.data.extra.JsonRawParserFactory;
-import com.kmfrog.dabase.data.extra.JsonRequest;
-import com.kmfrog.dabase.data.extra.NetworkRequestExecutor;
-import com.kmfrog.dabase.data.extra.PackageIconRequest;
-import com.kmfrog.dabase.data.extra.SQLiteExecRequest;
-import com.kmfrog.dabase.data.extra.SQLiteExecRequestExecutor;
-import com.kmfrog.dabase.data.extra.SQLiteRequest;
-import com.kmfrog.dabase.data.extra.SQLiteRequestExecutor;
-import okhttp3.OkHttpClient;
+import com.kmfrog.dabase.data.extra.*;
+
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 请求执行器工厂类。主要业务方法通过不同的{@link Request}获得对应的{@link RequestExecutor} <br/>

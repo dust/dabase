@@ -38,7 +38,7 @@ public class AppIconRequestExecutor extends RequestExecutor<Bitmap, Drawable> {
                     byte[] bytes = BitmapUtils.bitmap2ByteArray(bitmap);
                     long serverDateMillis=System.currentTimeMillis();
                     long softTtl = serverDateMillis + 86400L * 1000L * 7;
-                    putCacheEntry(bytes, request.getCacheKey(), null, softTtl, serverDateMillis, softTtl, null);
+                    putCacheEntry(bytes, request.getCacheKey(), null, softTtl, serverDateMillis, softTtl, null, null);
                 }
                 return new Response<Bitmap>(bitmap, false);
             } catch(Throwable ex) {
