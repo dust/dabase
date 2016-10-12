@@ -5,12 +5,11 @@
       <GradleProjectSettings>
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleHome" value="/usr/local/gradle-2.7" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/dabase" />
-            <option value="$PROJECT_DIR$/example" />
+            <option value="$PROJECT_DIR$/dabase-example" />
           </set>
         </option>
       </GradleProjectSettings>

@@ -1,1 +1,1 @@
-include ':dabase', ':example'
+include ':dabase', ':dabase-example'

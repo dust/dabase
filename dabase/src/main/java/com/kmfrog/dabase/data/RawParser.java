@@ -1,13 +1,13 @@
 package com.kmfrog.dabase.data;
 
-import java.util.Map;
-
 import com.kmfrog.dabase.exception.BaseException;
-import com.kmfrog.dabase.exception.ParserException;
 
+import java.util.*;
 
+/**
+ * Created by dust on 16-9-30.
+ */
 public interface RawParser<D, R> {
 
     D parse(R raw, Map<String, Object> extra) throws BaseException;
-
 }

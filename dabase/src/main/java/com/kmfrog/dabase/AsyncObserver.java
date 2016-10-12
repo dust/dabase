@@ -1,18 +1,19 @@
 package com.kmfrog.dabase;
 
+import com.kmfrog.dabase.exception.AppException;
 
 /**
  * 异步观察者，当一个异步的任务完成后通知相应的实现类。
- * @author dust@downjoy.com
  *
  * @param <D>
- * @param <Err>
+ * @author dust@downjoy.com
  */
-public interface AsyncObserver<D, Err extends Throwable> {
+public interface AsyncObserver<D> {
 
     void onSuccess(D result);
-    
-    void onFailure(Err e);
-    
-    void onAppError(Err e);
+
+    void onFailure(Throwable e);
+
+    void onAppError(AppException ex);
+
 }

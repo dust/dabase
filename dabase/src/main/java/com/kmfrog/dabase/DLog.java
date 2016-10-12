@@ -1,18 +1,17 @@
 package com.kmfrog.dabase;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-
 import android.os.SystemClock;
 import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 public class DLog {
 
     public static String TAG = "dabase";
 
-    public static boolean DEBUG = Log.isLoggable(TAG, Log.VERBOSE);
+    public static boolean DEBUG =true;// Log.isLoggable(TAG, Log.VERBOSE);
 
     /**
      * Customize the log tag for your application, so that other apps
@@ -37,23 +36,33 @@ public class DLog {
     }
 
     public static void d(String format, Object... args) {
-        Log.d(TAG, buildMessage(format, args));
+        if (DEBUG) {
+            Log.d(TAG, buildMessage(format, args));
+        }
     }
 
     public static void e(String format, Object... args) {
-        Log.e(TAG, buildMessage(format, args));
+        if (DEBUG) {
+            Log.e(TAG, buildMessage(format, args));
+        }
     }
 
     public static void e(Throwable tr, String format, Object... args) {
-        Log.e(TAG, buildMessage(format, args), tr);
+        if (DEBUG) {
+            Log.e(TAG, buildMessage(format, args), tr);
+        }
     }
 
     public static void wtf(String format, Object... args) {
-        Log.wtf(TAG, buildMessage(format, args));
+        if(DEBUG) {
+            Log.wtf(TAG, buildMessage(format, args));
+        }
     }
 
     public static void wtf(Throwable tr, String format, Object... args) {
-        Log.wtf(TAG, buildMessage(format, args), tr);
+        if(DEBUG) {
+            Log.wtf(TAG, buildMessage(format, args), tr);
+        }
     }
 
     /**
@@ -74,7 +83,7 @@ public class DLog {
                 callingClass = callingClass.substring(callingClass.lastIndexOf('.') + 1);
                 callingClass = callingClass.substring(callingClass.lastIndexOf('$') + 1);
 
-                caller = callingClass + "." + trace[i].getMethodName();
+                caller = String.format("%s.%s", callingClass, trace[i].getMethodName());
                 break;
             }
         }
@@ -88,7 +97,9 @@ public class DLog {
     public static class MarkerLog {
         public static final boolean ENABLED = DLog.DEBUG;
 
-        /** Minimum duration from first marker to last in an marker log to warrant logging. */
+        /**
+         * Minimum duration from first marker to last in an marker log to warrant logging.
+         */
         private static final long MIN_DURATION_FOR_LOGGING_MS = 0;
 
 
@@ -107,7 +118,9 @@ public class DLog {
         private final List<Marker> mMarkers = new ArrayList<Marker>();
         private boolean mFinished = false;
 
-        /** Adds a marker to this log with the specified name. */
+        /**
+         * Adds a marker to this log with the specified name.
+         */
         public synchronized void add(String name, long threadId) {
             if (mFinished) {
                 throw new IllegalStateException("Marker added to finished log");
@@ -119,6 +132,7 @@ public class DLog {
         /**
          * Closes the log, dumping it to logcat if the time difference between
          * the first and last markers is greater than {@link #MIN_DURATION_FOR_LOGGING_MS}.
+         *
          * @param header Header string to print above the marker log.
          */
         public synchronized void finish(String header) {
@@ -148,7 +162,9 @@ public class DLog {
             }
         }
 
-        /** Returns the time difference between the first and last events in this log. */
+        /**
+         * Returns the time difference between the first and last events in this log.
+         */
         private long getTotalDuration() {
             if (mMarkers.size() == 0) {
                 return 0;

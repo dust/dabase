@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/dabase.iml" filepath="$PROJECT_DIR$/dabase.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dabase/dabase-dabase.iml" filepath="$PROJECT_DIR$/dabase/dabase-dabase.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dabase-example/dabase-example.iml" filepath="$PROJECT_DIR$/dabase-example/dabase-example.iml" />
+    </modules>
+  </component>
+</project>

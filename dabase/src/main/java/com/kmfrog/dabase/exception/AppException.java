@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class AppException extends BaseException {
 
-    private static final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
 
     private int mResponseCode;
 
@@ -13,9 +13,8 @@ public class AppException extends BaseException {
 
     private String mErrMsg;
 
-    private Map<String, String> mHeaders;
+    private Map<String, Object> mHeaders;
 
-    private String mExtras;
 
     public AppException() {
         super();
@@ -29,42 +28,38 @@ public class AppException extends BaseException {
         super(ex);
     }
 
-    public AppException(String msg, int responseCode,int errCode, String errMsg, Map<String, String> responseHeaders, String extras) {
+    public AppException(String msg, int responseCode, int errCode, String errMsg, Map<String, Object> responseHeaders) {
         super(msg);
-        mHeaders=new HashMap<String, String>();
-        mResponseCode=responseCode;
+        mHeaders = new HashMap<String, Object>();
+        mResponseCode = responseCode;
         mHeaders.putAll(responseHeaders);
-        mExtras = extras;
         mErrCode = errCode;
         mErrMsg = errMsg;
     }
 
-    public AppException(String msg, int responseCode, Map<String, String> responseHeaders) {
+    public AppException(String msg, int responseCode, Map<String, Object> responseHeaders) {
         super(msg);
-        mHeaders=new HashMap<String, String>();
-        mResponseCode=responseCode;
+        mHeaders = new HashMap<String, Object>();
+        mResponseCode = responseCode;
         mHeaders.putAll(responseHeaders);
 
     }
 
-    public int getErrCode(){
+    public int getErrCode() {
         return mErrCode;
     }
 
-    public String getErrMsg(){
+    public String getErrMsg() {
         return mErrMsg;
     }
 
-    public String getExtras(){
-        return mExtras;
-    }
 
     public int getResponseCode() {
         return mResponseCode;
     }
 
-    public String getHeader(String fieldName) {
-        if(mHeaders == null) {
+    public Object getHeader(String fieldName) {
+        if (mHeaders == null) {
             return null;
         }
         return mHeaders.get(fieldName);
