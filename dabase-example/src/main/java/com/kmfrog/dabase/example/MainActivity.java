@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 import com.kmfrog.dabase.data.DataCallback;
 import com.kmfrog.dabase.data.JsonRequest;
@@ -65,7 +64,7 @@ public class MainActivity extends ActionBarActivity {
 
             }
         });
-        App.get().sHttpRequestExecutor.exec(req);
+        App.get().sHttpRequestExecutor.put(req);
     }
 
 

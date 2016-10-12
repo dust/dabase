@@ -72,7 +72,7 @@ public class HttpRequestExecutor {
     }
 
 
-    public <D> void exec(BaseRequest<D, ResponseBody> baseRequest) {
+    public <D> void put(BaseRequest<D, ResponseBody> baseRequest) {
         if (baseRequest.isCanceled()) {
             return;
         }

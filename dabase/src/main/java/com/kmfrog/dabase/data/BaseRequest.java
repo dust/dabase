@@ -159,7 +159,7 @@ public abstract class BaseRequest<D, R> {
         return mUri;
     }
 
-    protected String getUrl() {
+    public String getUrl() {
         return getUri().toString();
     }
 

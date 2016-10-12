@@ -8,9 +8,13 @@ import android.content.res.Configuration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.Process;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import com.kmfrog.dabase.bitmap.BitmapLoader;
+import com.kmfrog.dabase.data.HttpRequestExecutor;
 import com.kmfrog.dabase.util.DigestUtils;
 import com.kmfrog.dabase.util.ParameterUtil;
 import org.json.JSONObject;
@@ -48,14 +52,32 @@ public abstract class BaseApp extends Application {
 
     protected abstract String getKey();
 
+    protected abstract int getApiCacheSize();
+
+    protected abstract int getImageCacheSize();
+
+    protected HttpRequestExecutor mHttpRequestExecutor;
+
+    protected BitmapLoader mBitmapLoader;
+
     @Override
     @SuppressWarnings("rawtypes")
     public void onCreate() {
         super.onCreate();
         mUiParams = new UiParams(this);
 
-
+        Context ctx = getApplicationContext();
+        mHttpRequestExecutor = HttpRequestExecutor.getInstance(ctx, new Handler(Looper.getMainLooper()), getApiCacheSize());
+        mBitmapLoader = BitmapLoader.getInstance(ctx, getImageCacheSize());
         startBuildHeaderValue();
+    }
+
+    public HttpRequestExecutor getHttpExecutor() {
+        return mHttpRequestExecutor;
+    }
+
+    public BitmapLoader getBitmapLoader() {
+        return mBitmapLoader;
     }
 
     public UiParams getUiParams() {

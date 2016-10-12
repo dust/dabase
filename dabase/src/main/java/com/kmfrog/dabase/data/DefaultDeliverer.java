@@ -47,7 +47,7 @@ public class DefaultDeliverer implements Deliverer {
                 mRequest.deliver(mResult, mEx);
             } finally {
 //                if(mResponse.intermediate) {
-//                    mRequest.addMarker("intermediate-response");
+//                    mCurrentRequest.addMarker("intermediate-response");
 //                } else {
                 mRequest.finish("done");
 //                }

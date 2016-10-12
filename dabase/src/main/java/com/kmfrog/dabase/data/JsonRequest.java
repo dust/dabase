@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public class JsonRequest<D> extends BaseRequest<D, ResponseBody> {
 
-    public JsonRequest(Uri uri, BaseJsonParser<D> parser, AsyncObserver<D> callback) {
+    public JsonRequest(Uri uri, RawParser<D, ResponseBody> parser, AsyncObserver<D> callback) {
         super(uri, parser, callback);
     }
 
