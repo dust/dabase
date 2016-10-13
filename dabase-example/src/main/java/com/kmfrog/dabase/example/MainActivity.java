@@ -5,7 +5,12 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
+import com.kmfrog.dabase.adapter.BaseListAdapter;
 import com.kmfrog.dabase.data.DataCallback;
 import com.kmfrog.dabase.data.JsonRequest;
 import com.kmfrog.dabase.exception.AppException;
@@ -15,15 +20,34 @@ import java.util.List;
 
 public class MainActivity extends ActionBarActivity {
 
-    TextView tv;
+    ListView lv;
+    BaseListAdapter<Versus> versusAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        tv = (TextView) findViewById(R.id.hello);
+        lv = (ListView) findViewById(R.id.lv1);
+        Uri uri = Uri.parse("http://192.168.0.11:8080/v1/versus/list?pn=1&ps=20&token=burhqz8iiu7sxk1i4259811xe0fed0ec");
+        versusAdapter = new BaseListAdapter<Versus>(App.get(), uri, new VersusParser()) {
 
-        networkRequest();
+
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                if (convertView == null) {
+                    convertView = View.inflate(getApplicationContext(), R.layout.item_versus, null);
+                }
+                TextView name = (TextView) convertView.findViewById(R.id.tv_vs_name);
+                ImageView frontCover = (ImageView) convertView.findViewById(R.id.iv_vs_frontcover);
+                Versus v = getItem(position);
+                name.setText(v.createdDate);
+                App.get().getBitmapLoader().bind(frontCover, "http://cn.bing.com/sa/simg/CN_Logo_Gray.png"/*v.frontCover*/, R.drawable.ic_launcher);
+                return convertView;
+            }
+        };
+        lv.setAdapter(versusAdapter);
+        versusAdapter.start();
+//        networkRequest();
     }
 
     private void networkRequest() {
@@ -45,12 +69,12 @@ public class MainActivity extends ActionBarActivity {
 //
 //            }
 //        });
-        Uri uri = Uri.parse("http://192.168.0.11:8080/v1/versus/list?pn=1&token=20dznza7iu6dwt6p4259811qd2f7d872");
+        Uri uri = Uri.parse("http://192.168.0.11:8080/v1/versus/list?pn=1&token=burhqz8iiu7sxk1i4259811xe0fed0ec");
         JsonRequest<List<Versus>> req = new JsonRequest<List<Versus>>(uri, new VersusParser(), new DataCallback<List<Versus>>() {
             @Override
             public void onSuccess(List<Versus> result) {
                 if (result.size() > 0) {
-                    tv.setText(result.get(0).createdDate);
+//                    tv.setText(result.get(0).createdDate);
                 }
             }
 
@@ -64,7 +88,7 @@ public class MainActivity extends ActionBarActivity {
 
             }
         });
-        App.get().sHttpRequestExecutor.put(req);
+//        App.get().sHttpRequestExecutor.put(req);
     }
 
 

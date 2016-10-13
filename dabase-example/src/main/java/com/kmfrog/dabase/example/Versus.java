@@ -5,4 +5,5 @@ package com.kmfrog.dabase.example;
  */
 public class Versus {
     public String createdDate;
+    public String frontCover;
 }

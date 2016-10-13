@@ -15,8 +15,16 @@ public abstract class BaseListAdapter<D> extends BaseAdapter implements ChangedL
 
     protected ListLoader<D> mListLoader;
 
+    public BaseListAdapter(BaseApp app, Uri uri, RawParser<List<D>, ResponseBody> parser) {
+        this(app, uri, parser, true);
+    }
+
     public BaseListAdapter(BaseApp app, Uri uri, RawParser<List<D>, ResponseBody> parser, boolean autoLoadNextPage) {
-        mListLoader = new ListLoader<D>(app, uri, parser, autoLoadNextPage, false);
+        this(app, uri, parser, autoLoadNextPage, false);
+    }
+
+    public BaseListAdapter(BaseApp app, Uri uri, RawParser<List<D>, ResponseBody> parser, boolean autoLoadNextPage, boolean isPost) {
+        mListLoader = new ListLoader<D>(app, uri, parser, autoLoadNextPage, isPost);
         mListLoader.addChangedListener(this);
     }
 
@@ -32,6 +40,11 @@ public abstract class BaseListAdapter<D> extends BaseAdapter implements ChangedL
             return mListLoader.getItem(position);
         }
         return null;
+    }
+
+    @Override
+    public int getCount() {
+        return mListLoader.getCount();
     }
 
     @Override

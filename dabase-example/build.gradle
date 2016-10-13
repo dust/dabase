@@ -30,4 +30,5 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':dabase')
     compile 'com.android.support:appcompat-v7:24.0.0'
+    compile 'com.android.support:cardview-v7:+'
 }

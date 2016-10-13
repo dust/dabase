@@ -16,6 +16,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -47,7 +48,7 @@ public class HttpRequestExecutor {
         mDeliverer = deliverer;
     }
 
-    public static HttpRequestExecutor getInstance(final Context ctx, final Handler handler, long responseCacheSize) {
+    public static HttpRequestExecutor getInstance(Context ctx, final Handler handler, long responseCacheSize) {
         if (sInstance == null) {
             synchronized (lock) {
                 if (sInstance == null) {
@@ -62,7 +63,7 @@ public class HttpRequestExecutor {
                             }
                         }
                     } catch (Throwable ex) {
-                        DLog.wtf(ex, "AndroidShimResponseCache.create(%s, %d)", ctx.getCacheDir().getAbsolutePath(), responseCacheSize);
+                        DLog.wtf(ex, "AndroidShimResponseCache.create(%s, %d)", ctx.getCacheDir(), responseCacheSize);
                     }
                     sInstance = new HttpRequestExecutor(cache, new DefaultDeliverer(handler));
                 }

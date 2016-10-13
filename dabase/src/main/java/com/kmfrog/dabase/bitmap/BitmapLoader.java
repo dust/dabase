@@ -44,7 +44,7 @@ public class BitmapLoader {
         ImageLoaderConfiguration.Builder config = new ImageLoaderConfiguration.Builder(ctx);
         config.threadPriority(Thread.NORM_PRIORITY - 2);
         config.denyCacheImageMultipleSizesInMemory();
-        config.diskCacheFileNameGenerator(new Md5FileNameGenerator());
+        config.diskCacheFileNameGenerator(new MixedFileNameGenerator());
         config.diskCache(new UnlimitedDiskCache(cacheDir));
         config.diskCacheSize(imgCacheSize); // 50 MiB
         config.tasksProcessingOrder(QueueProcessingType.LIFO);

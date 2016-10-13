@@ -93,6 +93,7 @@
     <orderEntry type="library" exported="" name="support-v4-24.0.0" level="project" />
     <orderEntry type="library" exported="" name="okhttp-urlconnection-3.4.1" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-24.0.0" level="project" />
+    <orderEntry type="library" exported="" name="cardview-v7-24.0.0" level="project" />
     <orderEntry type="module" module-name="dabase-dabase" exported="" />
   </component>
 </module>
