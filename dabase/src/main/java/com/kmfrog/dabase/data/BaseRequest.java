@@ -8,7 +8,9 @@ import com.kmfrog.dabase.DLog;
 import com.kmfrog.dabase.exception.AppException;
 import okhttp3.Call;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -62,6 +64,8 @@ public abstract class BaseRequest<D, R> {
 
     private Call mOkCall;
 
+    private Map<String, String> mParams;
+
     protected BaseRequest(Uri uri, RawParser<D, R> parser, AsyncObserver<D> callback) {
         mUri = uri;
         mParser = parser;
@@ -70,6 +74,7 @@ public abstract class BaseRequest<D, R> {
         mCanceled = false;
         mDelivered = false;
         mBirthMillisTimes = 0L;
+        mParams = new HashMap<String, String>();
         mEventLog = DLog.MarkerLog.ENABLED ? new DLog.MarkerLog() : null;
     }
 
@@ -163,6 +168,39 @@ public abstract class BaseRequest<D, R> {
         return getUri().toString();
     }
 
+    protected Map<String, String> getPostParams() {
+        return null;
+    }
+
+    protected String getPostParamsEncoding() {
+        return "UTF-8";
+    }
+
+    public byte[] getPostBody() {
+        Map<String, String> map = getPostParams();
+        if (map != null && map.size() > 0) {
+            return encodePostParameters(map, getPostParamsEncoding());
+        }
+        return null;
+    }
+
+    public String getPostBodyContentType() {
+        return (new StringBuilder())
+                .append("application/x-www-form-urlencoded; charset=")
+                .append(getPostParamsEncoding()).toString();
+    }
+
+
+    public void addPostParam(String key, String value) {
+        mParams.put(key, value);
+    }
+
+    public void addPostParams(Map<String, String> map) {
+        if (map != null) {
+            mParams.putAll(map);
+        }
+    }
+
     protected Map<String, String> getHeaders() {
         return new HashMap<String, String>();
     }
@@ -171,4 +209,24 @@ public abstract class BaseRequest<D, R> {
         return mParser;
     }
 
+
+    public static byte[] encodePostParameters(Map<String, String> map,
+                                              String enc) {
+        StringBuilder sb = new StringBuilder();
+        try {
+            for (Iterator<Map.Entry<String, String>> iter = map.entrySet()
+                    .iterator(); iter.hasNext(); sb.append('&')) {
+                Map.Entry<String, String> entry = iter.next();
+                DLog.d("postParams : %s = %s", entry.getKey(), entry.getValue());
+                sb.append(entry.getKey()).append('=').append(entry.getValue());
+                // sb.append(URLEncoder.encode(entry.getKey(),
+                // enc)).append('=').append(URLEncoder.encode(entry.getValue(),
+                // enc));
+            }
+            return sb.toString().getBytes(enc);
+        } catch (UnsupportedEncodingException ex) {
+            throw new RuntimeException(String.format(
+                    "encoding not supported:%s", enc), ex);
+        }
+    }
 }

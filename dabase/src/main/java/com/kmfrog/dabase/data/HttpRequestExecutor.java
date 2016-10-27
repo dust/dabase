@@ -11,8 +11,10 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.CookieJar;
 import okhttp3.Headers;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
@@ -88,6 +90,10 @@ public class HttpRequestExecutor {
         }
         if (!baseRequest.shouldCache()) {
             builder.cacheControl(CacheControl.FORCE_NETWORK);
+        }
+        Map<String, String> postParams = baseRequest.getPostParams();
+        if (postParams != null && postParams.size() > 0) {
+            builder.post(RequestBody.create(MediaType.parse(baseRequest.getPostBodyContentType()), baseRequest.getPostBody()));
         }
 
         Request req = builder.build();

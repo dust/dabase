@@ -38,7 +38,9 @@ dabase是一个封装了网络请求的库，其解决的核心问题是结构�
 
 # ResponseCache
 
-如果responseCacheSize大于0，则会开启 ` java.net.ResponseCache ` ， 它是 ** 全局 ** 性的，会影响所有HttpURLConnection/HttpsURLConnection等相关方法，但它是受控于服务端Response的header字段中Cache-Control的设置值。
+如果responseCacheSize大于0，则会开启 ` java.net.ResponseCache ` ， 它是 **全局** 性的，会影响所有HttpURLConnection/HttpsURLConnection等相关方法，但它是受控于服务端Response的header字段中Cache-Control的设置值。
+
+如果将BaseRequest.setShouldCache(false)后，将会强制不使用缓存。
 
 ``` java
 

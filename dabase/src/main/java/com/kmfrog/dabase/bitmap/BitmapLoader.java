@@ -11,7 +11,6 @@ import android.graphics.RectF;
 import android.media.ThumbnailUtils;
 import android.widget.ImageView;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
-import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -25,7 +24,7 @@ import com.nostra13.universalimageloader.utils.StorageUtils;
 import java.io.File;
 
 /**
- * Created by dust on 16-10-12.
+ *
  */
 public class BitmapLoader {
 
