@@ -52,8 +52,8 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void networkRequest() {
-        UiModel<AppVersionInfo> info = new UiModel<AppVersionInfo>(uri,parser);
-        info.start();
+//        UiModel<AppVersionInfo> info = new UiModel<AppVersionInfo>(uri,parser);
+//        info.start();
 //        Uri uri = Uri.parse("http://api.zuoyoupk.com/v1/version/info?client=ios");
 //        Uri uri = Uri.parse("http://192.168.0.11:8080/v1/version/info?client=ios");
 //        JsonRequest<AppVersionInfo> req = new JsonRequest<AppVersionInfo>(uri, new AppVersionInfoParser(), new DataCallback<AppVersionInfo>() {
