@@ -12,6 +12,7 @@ import okhttp3.Callback;
 import okhttp3.CookieJar;
 import okhttp3.Headers;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -91,10 +92,27 @@ public class HttpRequestExecutor {
         if (!baseRequest.shouldCache()) {
             builder.cacheControl(CacheControl.FORCE_NETWORK);
         }
-        Map<String, String> postParams = baseRequest.getPostParams();
-        if (postParams != null && postParams.size() > 0) {
-            builder.post(RequestBody.create(MediaType.parse(baseRequest.getPostBodyContentType()), baseRequest.getPostBody()));
+        if (baseRequest.getFile() != null) {
+            MultipartBody.Builder mBuilder = new MultipartBody.Builder().setType(MultipartBody.FORM);
+            // 遍历map中所有参数到builder
+            Map<String, String> postParams = baseRequest.getPostParams();
+            if (postParams != null) {
+                for (String key : postParams.keySet()) {
+                    mBuilder.addFormDataPart(key, postParams.get(key));
+                }
+            }
+            mBuilder.addFormDataPart(baseRequest.getFileParamName(), baseRequest
+                    .getFile().getName(), RequestBody.create(
+                    MediaType.parse(baseRequest.getFileMediaType()), baseRequest.getFile()));
+            RequestBody requestBody = mBuilder.build();
+            builder.post(requestBody);// 添加请求体
+        } else {
+            Map<String, String> postParams = baseRequest.getPostParams();
+            if (postParams != null && postParams.size() > 0) {
+                builder.post(RequestBody.create(MediaType.parse(baseRequest.getPostBodyContentType()), baseRequest.getPostBody()));
+            }
         }
+
 
         Request req = builder.build();
         Call okCall = mOkHttpClient.newCall(req);

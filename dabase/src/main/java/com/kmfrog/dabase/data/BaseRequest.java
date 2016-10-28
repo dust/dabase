@@ -8,6 +8,7 @@ import com.kmfrog.dabase.DLog;
 import com.kmfrog.dabase.exception.AppException;
 import okhttp3.Call;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -64,7 +65,25 @@ public abstract class BaseRequest<D, R> {
 
     private Call mOkCall;
 
+    /**
+     * post请求时的参数值对。
+     */
     private Map<String, String> mParams;
+
+    /**
+     * 当请求为上传文件类型时，file字段的参数名 *
+     */
+    private String mParamFileName;
+
+    /**
+     * 需要上传的文件对象 *
+     */
+    private File mFile;
+
+    /**
+     * 需要上传的文件的MediaType
+     */
+    private String mFileMediaType;
 
     protected BaseRequest(Uri uri, RawParser<D, R> parser, AsyncObserver<D> callback) {
         mUri = uri;
@@ -228,5 +247,30 @@ public abstract class BaseRequest<D, R> {
             throw new RuntimeException(String.format(
                     "encoding not supported:%s", enc), ex);
         }
+    }
+
+    public String getFileParamName() {
+        return mParamFileName;
+    }
+
+    public File getFile() {
+        return mFile;
+    }
+
+    public void setMultipartFile(String paramName, File file){
+        setMultipartFile(paramName, file, "image/png; charset=UTF-8");
+    }
+
+    public void setMultipartFile(String paramName, File file, String mediaType) {
+        if (file == null || !file.exists() || !file.canRead()) {
+            throw new IllegalArgumentException("");
+        }
+        this.mParamFileName = paramName;
+        this.mFile = file;
+        this.mFileMediaType = mediaType;
+    }
+
+    public String getFileMediaType() {
+        return mFileMediaType;
     }
 }
