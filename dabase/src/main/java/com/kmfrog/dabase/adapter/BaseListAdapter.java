@@ -70,7 +70,7 @@ public abstract class BaseListAdapter<D> extends BaseAdapter implements ChangedL
         mListLoader.retryLoadItems();
     }
 
-    public void destory() {
+    public void destroy() {
         notifyDataSetInvalidated();
         if (mListLoader != null) {
             mListLoader.destory();

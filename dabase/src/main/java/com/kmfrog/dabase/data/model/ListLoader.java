@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Created by dust on 16-10-12.
@@ -44,7 +45,7 @@ public class ListLoader<D> extends UiModel<List<D>> {
 
     private boolean mLoadMoreBtnFlag;
 
-    private boolean mIsRefreshHold;
+    private volatile AtomicBoolean mIsRefreshHold;
 
     private boolean mIsPost = false;// 当前是Post请求
 
@@ -68,6 +69,8 @@ public class ListLoader<D> extends UiModel<List<D>> {
         mUrlOffsetList.add(mUrlOffsetPair);
         mMoreAvailable = true;
 
+        mIsRefreshHold = new AtomicBoolean(false);
+
     }
 
 
@@ -80,8 +83,8 @@ public class ListLoader<D> extends UiModel<List<D>> {
         }
         mCurrentOffset = uriOffsetPair.offset;
         mCurrentRequest = makeRequest(uriOffsetPair.uri);
-        Log.i("qq", "==requestMoreItemsIfNoRequestExists==++getCount()>>>>>"
-                + getCount());
+//        Log.i("qq", "==requestMoreItemsIfNoRequestExists==++getCount()>>>>>"
+//                + getCount());
         if (mIsPost) {
             mCurrentRequest.setShouldCache(false);
         }
@@ -149,9 +152,9 @@ public class ListLoader<D> extends UiModel<List<D>> {
 
     public void onDataBack(List<D> list, Throwable ex) {
         if (list != null && ex == null) {// if(list!=null){//
-            if (mIsRefreshHold) {
+            if (mIsRefreshHold.get()) {
                 mItems.clear();
-                mIsRefreshHold = false;
+                mIsRefreshHold.set(false);
             }
             clearErrors();
             int listSize = list.size();
@@ -232,12 +235,18 @@ public class ListLoader<D> extends UiModel<List<D>> {
         notifyDataChanged();
         mSize = 0;
         mLoadMoreBtnFlag = false;
+        int size = mUrlOffsetList.size();
+        if (size > 1) {
+            for (int i = 1; i < size; i++) {
+                mUrlOffsetList.remove(i);
+            }
+        }
     }
 
     public void startLoadItems() {
-        if (mMoreAvailable && getCount() == 0) {
+        if (!mIsRefreshHold.get() && mMoreAvailable && getCount() == 0) {
             clearErrors();
-            Log.i("qq", "==requestMoreItemsIfNoRequestExists==3>>>>>");
+            //Log.i("qq", "==requestMoreItemsIfNoRequestExists==3>>>>>");
             requestMoreItemsIfNoRequestExists(mUrlOffsetList.get(0));
         }
     }
@@ -260,7 +269,7 @@ public class ListLoader<D> extends UiModel<List<D>> {
             if (urlOffsetPair == null) {
                 urlOffsetPair = mUrlOffsetList.get(mUrlOffsetList.size() - 1);
             }
-            Log.i("qq", "==requestMoreItemsIfNoRequestExists==4>>>>>");
+            //Log.i("qq", "==requestMoreItemsIfNoRequestExists==4>>>>>");
             requestMoreItemsIfNoRequestExists(urlOffsetPair);
         }
     }
@@ -268,6 +277,30 @@ public class ListLoader<D> extends UiModel<List<D>> {
     public void refresh() {
         reset();
         startLoadItems();
+    }
+
+    public synchronized void refreshWithHold() {
+        if (!mIsRefreshHold.get()) {
+            mIsRefreshHold.set(true);
+            mMoreAvailable = true;
+            mCurrentRequest = null;
+            mLoadMoreBtnFlag = false;
+
+            clearErrors();
+
+            int size = mUrlOffsetList.size();
+            UrlOffsetPair pair = null;
+            if (size > 1) {
+                for (int i = 1; i < size; i++) {
+                    mUrlOffsetList.remove(i);
+                }
+                pair = mUrlOffsetList.get(0);
+            }
+
+            if (pair != null) {
+                requestMoreItemsIfNoRequestExists(pair);
+            }
+        }
     }
 
     public void destory() {
