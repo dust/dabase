@@ -236,10 +236,13 @@ public class ListLoader<D> extends UiModel<List<D>> {
         mSize = 0;
         mLoadMoreBtnFlag = false;
         int size = mUrlOffsetList.size();
-        if (size > 1) {
-            for (int i = 1; i < size; i++) {
-                mUrlOffsetList.remove(i);
-            }
+        UrlOffsetPair pair = null;
+        if (size > 0) {
+            pair = mUrlOffsetList.get(0);
+        }
+        mUrlOffsetList.clear();
+        if (pair != null) {
+            mUrlOffsetList.add(pair);
         }
     }
 
@@ -290,14 +293,12 @@ public class ListLoader<D> extends UiModel<List<D>> {
 
             int size = mUrlOffsetList.size();
             UrlOffsetPair pair = null;
-            if (size > 1) {
-                for (int i = 1; i < size; i++) {
-                    mUrlOffsetList.remove(i);
-                }
+            if (size > 0) {
                 pair = mUrlOffsetList.get(0);
             }
-
+            mUrlOffsetList.clear();
             if (pair != null) {
+                mUrlOffsetList.add(pair);
                 requestMoreItemsIfNoRequestExists(pair);
             }
         }
